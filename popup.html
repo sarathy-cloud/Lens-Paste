@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #ffffff;
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    p {
+      font-size: 12px;
+      color: #aaaaaa;
+      margin-bottom: 16px;
+    }
+    #preview-container {
+      width: 100%;
+      height: 150px;
+      background-color: #2d2d2d;
+      border: 1px dashed #555;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    #preview-image {
+      max-width: 100%;
+      max-height: 100%;
+      display: none;
+      object-fit: contain;
+    }
+    #no-image-text {
+      color: #888;
+      font-size: 12px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+      color: #aaa;
+    }
+    #status {
+      margin-top: 12px;
+      font-size: 12px;
+      text-align: center;
+      color: #aaa;
+      min-height: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Lens Paste</h2>
+  <p>Preview clipboard image and search on Google Lens.</p>
+  
+  <div id="preview-container">
+    <span id="no-image-text">No image in clipboard</span>
+    <img id="preview-image" alt="Clipboard Preview">
+  </div>
+  
+  <button id="search-btn" disabled>Search Clipboard Image</button>
+  <div id="status">Waiting for image...</div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
