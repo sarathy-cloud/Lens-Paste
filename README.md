@@ -1,37 +1,68 @@
 # Lens Paste
 
-Lens Paste is a Google Chrome extension that allows you to instantly search images from your system clipboard on Google Lens with a single click.
+Upload a clipboard image directly to Google Lens — without saving it to disk first.
 
-## Features
+## What it does
 
-- **Clipboard Preview**: View the image currently stored in your clipboard directly within the extension popup.
-- **Instant Search**: Click the search button to instantly upload and transition your clipboard image to Google Lens.
-- **Fast Upload**: Automatic client-side JPEG compression balances upload size and image quality for optimal performance.
-- **Smooth Navigation**: Seamless background tab manipulation avoids polluting your browsing space with empty tabs during upload.
+Copy any image (screenshot, photo, diagram) to your clipboard, open the extension popup, and hit **Search with Google Lens**. The extension reads the clipboard image, compresses it, and submits it to Lens automatically.
 
-## Installation
+No file-picking. No drag-and-drop. No downloads. Just Ctrl+C and click.
 
-To install the extension locally in developer mode:
+## How it works
 
-1. Download or clone this repository to a local directory.
-2. Open Google Chrome and navigate to `chrome://extensions/`.
-3. Enable **Developer mode** using the toggle switch in the top-right corner.
-4. Click the **Load unpacked** button in the top-left corner.
-5. Select the directory containing the extension files.
+Lens Paste uses the Chrome Clipboard API (`navigator.clipboard.read()`) to read the image directly from your clipboard. It compresses it as JPEG (85% quality) to speed up upload, stores it briefly in `chrome.storage.local`, then opens a bridge page (`upload.html`) that reconstructs a FormData multipart POST request — the same format Google Lens expects for direct image uploads.
 
-## Usage Guide
+The bridge page is opened in the current tab if it's a new tab page, or in a new tab otherwise.
 
-1. Pin the extension to your browser toolbar for quick access.
-2. Copy an image to your clipboard. For example:
-   - Take a screenshot using **Win + Shift + S** (Windows) or **Cmd + Shift + 4** (macOS).
-   - Right-click an image on a webpage and select **Copy Image**.
-3. Click the **Lens Paste** icon on your browser toolbar.
-4. The extension will display a preview of the image. Click **Search Clipboard Image** to search the image on Google Lens.
+## Key features
 
-## Architecture
+- Works with screenshots, screen captures, and any image from your clipboard
+- Compresses images before upload for faster Lens response
+- Handles the "Document not focused" timing issue on popup open with retry logic
+- Zero saved files — the image never touches your file system
+- Manifest V3 compliant
 
-- **manifest.json**: Configuration and metadata declaring permissions (clipboardRead, storage, tabs, declarativeNetRequest) and the background service worker.
-- **popup.html / popup.js**: Interactive popup UI showing the clipboard image preview, handling compression, and starting the upload flow.
-- **upload.html / upload.js**: Secondary bridge page that receives the base64 image data and performs the HTTP multipart POST upload to Google Lens.
-- **background.js**: Service worker managing runtime actions and opening the onboarding page upon installation.
-- **rules.json**: Declarative Net Request rules configuring headers for Lens interaction.
+## Installation (Developer Mode)
+
+1. Download or clone this repository
+2. Open `chrome://extensions/`
+3. Enable **Developer mode** (top right)
+4. Click **Load unpacked**
+5. Select the `Lens_Paste/` folder
+
+## Usage
+
+1. Copy any image to your clipboard (`PrtScn`, `Ctrl+C` on image, etc.)
+2. Click the Lens Paste icon in your Chrome toolbar
+3. Your clipboard image appears in the preview
+4. Click **Search with Google Lens**
+
+## Permissions
+
+| Permission | Reason |
+|---|---|
+| `clipboardRead` | Read the image from clipboard |
+| `tabs` | Open Lens in current or new tab |
+| `storage` | Temporarily store the image blob |
+| `declarativeNetRequest` | Modify headers for the Lens upload request |
+
+## Tech
+
+- Pure JavaScript, no frameworks
+- Chrome Extension Manifest V3
+- `navigator.clipboard.read()`, `canvas.toBlob()`, `FileReader`
+- `chrome.storage.local`, `chrome.tabs`
+
+## Limitations
+
+- Only works on images in clipboard (not text)
+- Requires clipboard permission consent on first use
+- Google Lens must be accessible in your region
+
+## Screenshots
+
+![Lens Paste popup](docs/screenshots/popup.png)
+
+## License
+
+MIT

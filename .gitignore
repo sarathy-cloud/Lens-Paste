@@ -1,21 +1,11 @@
-# OS Files
-Thumbs.db
-db.properties
-desktop.ini
+# Dependencies and build outputs
+node_modules/
+dist/
+build/
+
+# Brag assets (personal presentation, not for GitHub)
+brag/
+
+# OS junk
 .DS_Store
-
-# IDEs and Editors
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Log files
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+Thumbs.db
