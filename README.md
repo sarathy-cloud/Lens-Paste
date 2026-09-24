@@ -1,4 +1,8 @@
+![Lens Paste](docs/screenshots/cover.png)
+
+
 # Lens Paste
+
 
 Upload a clipboard image directly to Google Lens — without saving it to disk first.
 
